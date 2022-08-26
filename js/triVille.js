@@ -92,9 +92,9 @@ function distanceFromGrenoble(ville) {
 function isLess(i, j) {
     // console.log(listVille[i]);
     // console.log(listVille[j]);
-    if(listVille[i] == undefined){
-        console.log(listVille[i].nom_commune)
-    }
+    // if(listVille[i] == undefined){
+    //     console.log(listVille[i].nom_commune)
+    // }
     if(listVille[i].distanceFromGrenoble   <   listVille[j].distanceFromGrenoble   ){
         return true;
     }else{
@@ -137,8 +137,8 @@ function sort(type) {
             heapsort();
             break;
         case 'quick':
-            quicksort(0, listVille.length - 1);
-            console.log(listVille[0])
+            quicksort2(0, listVille.length - 1);
+            // console.log(listVille[0])
             break;
     }
 }
@@ -200,39 +200,70 @@ function heapsort() {
     console.log("heapsort - implement me !");
 }
 
-function partition(start, end){
-    // Taking the last element as the pivot
-        // const pivotValue = listVille[end].distanceFromGrenoble;
-        let pivotIndex = start;
-        for (let i = start; i < end; i++) {
-            if (isLess(i, pivotIndex)) {
-    // Swapping elements
-                // [inputArr[i], inputArr[pivotIndex]] = [inputArr[pivotIndex], inputArr[i]];
-                swap(i, start);
-    // Moving to next element
-                pivotIndex++;
+// QUICKSORT NON FONCTIONNEL => A DEBUGGER
+// function partition(start, end){
+//     // Taking the last element as the pivot
+//         // const pivotValue = listVille[end].distanceFromGrenoble;
+//         let swapIndex = start;
+//         for (let i = swapIndex; i < end; i++) {
+//             if (isLess(end, i)) {
+//     // Swapping elements
+//                 // [inputArr[i], inputArr[swapIndex]] = [inputArr[swapIndex], inputArr[i]];
+//                 swap(i, end);
+//     // Moving to next element
+//                 swapIndex++;
+//             }
+//         }
+//         // Putting the pivot value in the middle
+//         // [inputArr[swapIndex], inputArr[end]] = [inputArr[end], inputArr[swapIndex]]
+//         swap(swapIndex, end);
+//         return swapIndex;
+//     }
+    
+//     function quicksort(start, end) {
+//         // Base case or terminating case
+//         if (start >= end) {
+//             return;
+//         }
+    
+//         // Returns swapIndex
+//         let index = partition(start, end);
+    
+//         // Recursively apply the same logic to the left and right subarrays
+//         quicksort(start, index - 1);
+//         quicksort(index + 1, end);
+//         return listVille;
+//     }
+
+// QUICKSORT 2 (implémentation de la vidéo tuto - cf Notion)
+
+function partition2(start, end) {
+    let pivotValue = listVille[end].distanceFromGrenoble;
+    let swapMarker = start - 1; // orange
+    for (currentIndex = start; currentIndex <= end; currentIndex++) { // currentIndex = vert
+        if (listVille[currentIndex].distanceFromGrenoble <= pivotValue) {
+            swapMarker++;
+            if (currentIndex > swapMarker) {
+                swap(currentIndex, swapMarker)
             }
         }
-        // Putting the pivot value in the middle
-        // [inputArr[pivotIndex], inputArr[end]] = [inputArr[end], inputArr[pivotIndex]]
-        swap(pivotIndex, end);
-        return pivotIndex;
     }
-    
-    function quicksort(start, end) {
-        // Base case or terminating case
-        if (start >= end) {
-            return;
-        }
-    
-        // Returns pivotIndex
-        let index = partition(start, end);
-    
-        // Recursively apply the same logic to the left and right subarrays
-        quicksort(start, index - 1);
-        quicksort(index + 1, end);
-        return listVille;
+    return swapMarker;
+}
+
+function quicksort2(start, end) {
+    if (start >= end) {
+        return;
     }
+
+    //Returns swapIndex
+    let wall = partition2(start, end);
+
+    // Recursively apply the same logic to the left and right subarrays
+    quicksort2(start, wall - 1);
+    quicksort2(wall + 1, end);
+    return listVille;
+}
 
 /** MODEL */
 
