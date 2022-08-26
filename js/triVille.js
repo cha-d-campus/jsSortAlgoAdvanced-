@@ -187,8 +187,34 @@ function bubblesort() {
     return listVille;
 }
 
+function insertionsortShell(gap, startIndex) {
+    for (i = gap + startIndex; i <= listVille.length; i += gap) {
+        let temp = listVille[i];
+        j = i;
+        while (j > 0 && listVille[j - gap] > temp) {
+            swap(j, j - gap)
+            j = j - gap;
+        }
+    }
+    return listVille;
+}
+
 function shellsort() {
-    console.log("shellsort - implement me !");
+    console.log("Tableau à trier par shellSort");
+    //Calcul intervalles :
+    let step = Math.ceil(listVille.length / 2);
+    let intervalles = [];
+    //tableau de gap
+    for (let i = 1; i <= step; i = 3 * i + 1) {
+        intervalles.push(i)
+    };
+    console.log(intervalles)
+    for (gapNumber = 0; gapNumber < intervalles.length; gapNumber++) {
+        for (decalage = 0; decalage < intervalles[gapNumber]; decalage++) {
+            insertionsortShell(intervalles[gapNumber], decalage)
+        };
+    }
+    return listVille;
 }
 
 function mergesort() {
@@ -241,7 +267,7 @@ function partition2(start, end) {
     let pivotValue = listVille[end].distanceFromGrenoble;
     let swapMarker = start - 1; // orange
     for (currentIndex = start; currentIndex <= end; currentIndex++) { // currentIndex = vert
-        if (listVille[currentIndex].distanceFromGrenoble <= pivotValue) {
+        if (isLess(currentIndex, end) || listVille[currentIndex].distanceFromGrenoble == pivotValue) {
             swapMarker++;
             if (currentIndex > swapMarker) {
                 swap(currentIndex, swapMarker)
